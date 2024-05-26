@@ -8,8 +8,8 @@ This file tracks thoughts used to align with others.
   * [Decisions](#decisions)
     * [01 Async preparation phases before the reveal](#01-async-preparation-phases-before-the-reveal)
     * [02 Draws are valid end-conditions](#02-draws-are-valid-end-conditions)
-    * [03 Game state is server-side](#03-game-state-is-server-side)
-    * [04 model-first API](#04-model-first-api)
+    * [03 Re-use the core classes from rock-paper-scissors](#03-re-use-the-core-classes-from-rock-paper-scissors)
+    * [04 Manually build the CLI](#04-manually-build-the-cli)
 <!-- TOC -->
 
 
@@ -18,8 +18,9 @@ This file tracks thoughts used to align with others.
 Games
 1. a player MUST be able to start a new game
 2. a player MUST be able to abandon a game without picking an action
-3. the game SHOULD mark ongoing games as abandonned after a TTL
-4. the game SHOULD prevent a game from starting if there are too many games in progress
+3. a player MUST be able to play multiple rounds before the game ends
+4. the game SHOULD mark ongoing games as abandoned after a TTL
+5. the game SHOULD prevent a game from starting if there are too many games in progress
 
 Actions
 1. a player MUST be able to pick an action in a new game
@@ -61,13 +62,15 @@ In real life, people often re-play the game in case of a draw until a winner is 
 
 For simplicity, we're going to consider a draw to be a valid end-state, and force players to start a new game.
 
-### 03 Game state is server-side
+### 03 Re-use the core classes from rock-paper-scissors webapp
 
-To prevent game state from being tampered-with during the preparation phases, we store game state on the server.
+I originally built this as a web-application; most of the core game logic can be re-used.
 
+See the previous project here [rock-paper-scissors](https://github.com/xpcoffee/rock-paper-scissors).
 
-### 04 model-first API
+### 04 Manually build the CLI
 
-Base the API implementation off of interfaces generated from an OpenAPI model.
+Original plan was to use [Spring Shell](https://docs.spring.io/spring-shell/reference/getting-started.html) as the CLI tooling, but many things don't work due to 
+console limitations between IntelliJ, Windows terminals, and JLine (which is what Spring Shell is built on).
 
-This allows clients to be generated, and forces documentation of the API.
+After trying with one external tool I think it's now best to just do a custom implementation.
