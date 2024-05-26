@@ -1,11 +1,10 @@
 package com.xpcoffee.rock_paper_scissors.engine;
 
-import com.xpcoffee.rock_paper_scissors.engine.GameAction.GameActionType;
+import com.xpcoffee.rock_paper_scissors.engine.EngineGameAction.GameActionType;
 import com.xpcoffee.rock_paper_scissors.GameException;
 import com.xpcoffee.rock_paper_scissors.store.GameStore;
 
 import java.util.UUID;
-import java.util.logging.Logger;
 
 public class Engine {
     private GameStore store;
@@ -21,14 +20,14 @@ public class Engine {
 
     public String newGame() {
         var gameId = String.valueOf(UUID.randomUUID());
-        store.getGames().put(gameId, new GameState());
+        store.getGames().put(gameId, new EngineGameState());
         return gameId;
     }
 
-    public GameStatus playAction(String gameId, GameAction action) throws GameException {
+    public EngineGameStatus playAction(String gameId, EngineGameAction action) throws GameException {
         var gameState = store.getGameState(gameId);
 
-        if (!GameStatus.StatusType.PENDING.equals(determineStatus(gameState).getResultType())) {
+        if (!EngineGameStatus.StatusType.PENDING.equals(determineStatus(gameState).getResultType())) {
             throw new GameConcludedException();
         }
 
@@ -44,22 +43,22 @@ public class Engine {
         return determineStatus(gameState);
     }
 
-    public GameStatus determineStatus(GameState gameState) {
-        var actions = gameState.getActions();
+    public EngineGameStatus determineStatus(EngineGameState engineGameState) {
+        var actions = engineGameState.getActions();
 
         if (!actions.isEmpty() && actions.stream().anyMatch(action -> action.getType() == GameActionType.Abandon)) {
-            return GameStatus.abandonned();
+            return EngineGameStatus.abandonned();
         }
 
         if (actions.size() < 2) {
-            return GameStatus.pending();
+            return EngineGameStatus.pending();
         }
 
         var iterator = actions.iterator();
         var action1 = iterator.next();
         var action2 = iterator.next();
         if (action1.getType() == action2.getType()) {
-            return GameStatus.draw();
+            return EngineGameStatus.draw();
         }
 
         // -- only win condition from here --
@@ -71,6 +70,6 @@ public class Engine {
             default -> action2.getType() == GameActionType.Paper;
         };
 
-        return GameStatus.winner(doesAction1Win ? action1.getPlayer() : action2.getPlayer());
+        return EngineGameStatus.winner(doesAction1Win ? action1.getPlayer() : action2.getPlayer());
     }
 }

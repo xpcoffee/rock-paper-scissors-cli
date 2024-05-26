@@ -1,29 +1,29 @@
 package com.xpcoffee.rock_paper_scissors.engine;
 
-public class GameStatus {
+public class EngineGameStatus {
     private StatusType resultType;
     private Player winner;
 
-    private GameStatus(StatusType resultType) {
+    private EngineGameStatus(StatusType resultType) {
         this.resultType = resultType;
     }
 
-    public static GameStatus winner(Player player) {
-        var result = new GameStatus(StatusType.WIN);
+    public static EngineGameStatus winner(Player player) {
+        var result = new EngineGameStatus(StatusType.WIN);
         result.winner = player;
         return result;
     }
 
-    public static GameStatus draw() {
-        return new GameStatus(StatusType.DRAW);
+    public static EngineGameStatus draw() {
+        return new EngineGameStatus(StatusType.DRAW);
     }
 
-    public static GameStatus abandonned() {
-        return new GameStatus(StatusType.ABANDONED);
+    public static EngineGameStatus abandonned() {
+        return new EngineGameStatus(StatusType.ABANDONED);
     }
 
-    public static GameStatus pending() {
-        return new GameStatus(StatusType.PENDING);
+    public static EngineGameStatus pending() {
+        return new EngineGameStatus(StatusType.PENDING);
     }
 
     public StatusType getResultType() {

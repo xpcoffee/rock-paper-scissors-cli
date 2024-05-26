@@ -1,10 +1,10 @@
 package com.xpcoffee.rock_paper_scissors.engine;
 
-public class GameAction {
+public class EngineGameAction {
     private final Player player;
     private final GameActionType actionType;
 
-    public GameAction(Player player, GameActionType actionType) {
+    public EngineGameAction(Player player, GameActionType actionType) {
         this.player = player;
         this.actionType = actionType;
     }
@@ -17,26 +17,31 @@ public class GameAction {
         return actionType;
     }
 
-    public static GameAction rock(Player player) {
-        return new GameAction(player, GameActionType.Rock);
+    public static EngineGameAction rock(Player player) {
+        return new EngineGameAction(player, GameActionType.Rock);
     }
 
-    public static GameAction paper(Player player) {
-        return new GameAction(player, GameActionType.Paper);
+    public static EngineGameAction paper(Player player) {
+        return new EngineGameAction(player, GameActionType.Paper);
     }
 
-    public static GameAction scissors(Player player) {
-        return new GameAction(player, GameActionType.Scissors);
+    public static EngineGameAction scissors(Player player) {
+        return new EngineGameAction(player, GameActionType.Scissors);
     }
 
-    public static GameAction abandon(Player player) {
-        return new GameAction(player, GameActionType.Abandon);
+    public static EngineGameAction abandon(Player player) {
+        return new EngineGameAction(player, GameActionType.Abandon);
+    }
+
+    public EngineGameAction obfuscate() {
+        return new EngineGameAction(this.player, GameActionType.Hidden);
     }
 
     public enum GameActionType {
         Rock("rock"),
         Paper("paper"),
         Scissors("scissors"),
+        Hidden("hidden"),
         Abandon("abandon");
 
         private  String value;

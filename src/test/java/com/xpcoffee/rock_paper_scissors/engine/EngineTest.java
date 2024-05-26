@@ -21,35 +21,35 @@ class EngineTest {
             "scissors, paper, player1",
     })
     void engine_playAction_returnsWin(String player1Action, String player2Action, String expectedResult) throws GameException {
-        GameAction player1GameAction = switch (player1Action) {
-            case "rock" -> GameAction.rock(player1);
-            case "paper" -> GameAction.paper(player1);
-            case "scissors" -> GameAction.scissors(player1);
+        EngineGameAction player1EngineGameAction = switch (player1Action) {
+            case "rock" -> EngineGameAction.rock(player1);
+            case "paper" -> EngineGameAction.paper(player1);
+            case "scissors" -> EngineGameAction.scissors(player1);
             case null, default -> fail("Unexpected player action " + player1Action);
         };
 
-        GameAction player2GameAction = switch (player2Action) {
-            case "rock" -> GameAction.rock(player2);
-            case "paper" -> GameAction.paper(player2);
-            case "scissors" -> GameAction.scissors(player2);
+        EngineGameAction player2EngineGameAction = switch (player2Action) {
+            case "rock" -> EngineGameAction.rock(player2);
+            case "paper" -> EngineGameAction.paper(player2);
+            case "scissors" -> EngineGameAction.scissors(player2);
             case null, default -> fail("Unexpected player action " + player1Action);
         };
 
         var engine = new Engine();
         var gameId = engine.newGame();
-        var firstAction = engine.playAction(gameId, player1GameAction);
-        assertEquals(firstAction.getResultType(), GameStatus.StatusType.PENDING);
+        var firstAction = engine.playAction(gameId, player1EngineGameAction);
+        assertEquals(firstAction.getResultType(), EngineGameStatus.StatusType.PENDING);
 
-        var result = engine.playAction(gameId, player2GameAction);
+        var result = engine.playAction(gameId, player2EngineGameAction);
 
         switch (expectedResult) {
-            case "draw" -> assertEquals(result.getResultType(), GameStatus.StatusType.DRAW);
+            case "draw" -> assertEquals(result.getResultType(), EngineGameStatus.StatusType.DRAW);
             case "player1" -> {
-                assertEquals(result.getResultType(), GameStatus.StatusType.WIN);
+                assertEquals(result.getResultType(), EngineGameStatus.StatusType.WIN);
                 assertEquals(result.getWinner(), player1);
             }
             case "player2" -> {
-                assertEquals(result.getResultType(), GameStatus.StatusType.WIN);
+                assertEquals(result.getResultType(), EngineGameStatus.StatusType.WIN);
                 assertEquals(result.getWinner(), player2);
             }
             case null, default -> fail("Unexpected result " + expectedResult);
@@ -61,12 +61,12 @@ class EngineTest {
         var engine = new Engine();
         var gameId = engine.newGame();
 
-        var result = engine.playAction(gameId, GameAction.abandon(player1));
+        var result = engine.playAction(gameId, EngineGameAction.abandon(player1));
 
-        assertEquals(result.getResultType(), GameStatus.StatusType.ABANDONED);
+        assertEquals(result.getResultType(), EngineGameStatus.StatusType.ABANDONED);
         assertThrows(
                 GameConcludedException.class,
-                () -> engine.playAction(gameId, new GameAction(player2, GameAction.GameActionType.Rock))
+                () -> engine.playAction(gameId, new EngineGameAction(player2, EngineGameAction.GameActionType.Rock))
         );
     }
 
@@ -75,13 +75,13 @@ class EngineTest {
         var engine = new Engine();
         var gameId = engine.newGame();
 
-        engine.playAction(gameId, GameAction.rock(player1));
-        var result = engine.playAction(gameId, GameAction.abandon(player2));
+        engine.playAction(gameId, EngineGameAction.rock(player1));
+        var result = engine.playAction(gameId, EngineGameAction.abandon(player2));
 
-        assertEquals(result.getResultType(), GameStatus.StatusType.ABANDONED);
+        assertEquals(result.getResultType(), EngineGameStatus.StatusType.ABANDONED);
         assertThrows(
                 GameConcludedException.class,
-                () -> engine.playAction(gameId, new GameAction(player2, GameAction.GameActionType.Rock))
+                () -> engine.playAction(gameId, new EngineGameAction(player2, EngineGameAction.GameActionType.Rock))
         );
     }
 
@@ -91,12 +91,12 @@ class EngineTest {
         var engine = new Engine();
         var gameId = engine.newGame();
 
-        engine.playAction(gameId, GameAction.rock(player1));
-        engine.playAction(gameId, GameAction.paper(player2));
+        engine.playAction(gameId, EngineGameAction.rock(player1));
+        engine.playAction(gameId, EngineGameAction.paper(player2));
 
         assertThrows(
                 GameConcludedException.class,
-                () -> engine.playAction(gameId, GameAction.paper(player2))
+                () -> engine.playAction(gameId, EngineGameAction.paper(player2))
         );
     }
 
@@ -105,12 +105,12 @@ class EngineTest {
         var engine = new Engine();
         var gameId = engine.newGame();
 
-        engine.playAction(gameId, GameAction.rock(player1));
-        engine.playAction(gameId, GameAction.rock(player2));
+        engine.playAction(gameId, EngineGameAction.rock(player1));
+        engine.playAction(gameId, EngineGameAction.rock(player2));
 
         assertThrows(
                 GameConcludedException.class,
-                () -> engine.playAction(gameId, GameAction.paper(player2))
+                () -> engine.playAction(gameId, EngineGameAction.paper(player2))
         );
     }
 
@@ -119,11 +119,11 @@ class EngineTest {
         var engine = new Engine();
         var gameId = engine.newGame();
 
-        engine.playAction(gameId, GameAction.rock(player1));
+        engine.playAction(gameId, EngineGameAction.rock(player1));
 
         assertThrows(
                 AlreadyPlayedException.class,
-                () -> engine.playAction(gameId, GameAction.paper(new Player(player1.getName())))
+                () -> engine.playAction(gameId, EngineGameAction.paper(new Player(player1.getName())))
         );
     }
 }

@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  title: Rock Paper Scissers
+  description: |-
+    A game of rock paper scissors.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8888
+
+paths:
+  /game:
+    put:
+      summary: Start a new game
+      operationId: newGame
+      description: Create a game, get back its ID
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameDetails"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: List games
+      operationId: listGames
+      description: Fetch all games
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameList"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /game/{gameId}:
+    parameters:
+      - in: path
+        name: gameId
+        description: the ID of the game
+        required: true
+        schema:
+          type: string
+    post:
+      summary: Play a move
+      description: Create a game, get back its ID
+      operationId: play
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameAction'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameStatus'
+        '400':
+          description: Invalid game action / Game already concluded
+        '404':
+          description: Game not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      summary: Get game
+      description: Fetch a game's details
+      operationId: getGame
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameDetails'
+        '404':
+          description: Game not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+components:
+  schemas:
+    GameDetails:
+      type: object
+      required:
+        - gameId
+        - state
+        - status
+      properties:
+        gameId:
+          type: string
+          example: 1234abd
+        state:
+          $ref: "#/components/schemas/GameState"
+        status:
+          $ref: "#/components/schemas/GameStatus"
+
+    GameAction:
+      type: object
+      properties:
+        playerId:
+          type: string
+          example: player-12345
+        actionType:
+          type: string
+          enum: ["rock", "paper", "scissors", "abandon", "hidden"]
+
+    GameState:
+      type: object
+      required:
+        - actions
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/GameAction"
+
+    GameStatus:
+      type: object
+      required:
+        - statusType
+      properties:
+        winnerPlayerId:
+          type: string
+          example: player-12345
+        statusType:
+          type: string
+          enum: ["pending", "win", "draw", "abandoned"]
+
+    GameList:
+      type: object
+      required:
+        - actions
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/GameDetails"
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+

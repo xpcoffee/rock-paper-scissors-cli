@@ -1,19 +1,19 @@
 package com.xpcoffee.rock_paper_scissors.api;
 
-import com.xpcoffee.rock_paper_scissors.engine.GameStatus;
+import com.xpcoffee.rock_paper_scissors.engine.EngineGameStatus;
 
 public class PlayActionResponse {
-    GameStatus status;
+    EngineGameStatus status;
 
-    public PlayActionResponse(GameStatus status) {
+    public PlayActionResponse(EngineGameStatus status) {
         this.status = status;
     }
 
-    public GameStatus getStatus() {
+    public EngineGameStatus getStatus() {
         return status;
     }
 
-    public void setStatus(GameStatus status) {
+    public void setStatus(EngineGameStatus status) {
         this.status = status;
     }
 }

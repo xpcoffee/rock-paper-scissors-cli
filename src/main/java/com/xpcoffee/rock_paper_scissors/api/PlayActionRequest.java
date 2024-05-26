@@ -1,7 +1,5 @@
 package com.xpcoffee.rock_paper_scissors.api;
 
-import com.xpcoffee.rock_paper_scissors.engine.GameAction;
-
 public class PlayActionRequest {
     String playerName;
     String action;

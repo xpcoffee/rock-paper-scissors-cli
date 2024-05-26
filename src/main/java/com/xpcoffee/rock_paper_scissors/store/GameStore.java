@@ -1,14 +1,14 @@
 package com.xpcoffee.rock_paper_scissors.store;
 
-import com.xpcoffee.rock_paper_scissors.engine.GameState;
+import com.xpcoffee.rock_paper_scissors.engine.EngineGameState;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameStore {
-    private Map<String, GameState> games = new HashMap<>();
+    private Map<String, EngineGameState> games = new HashMap<>();
 
-    public GameState getGameState(String gameId) throws GameNotFoundException {
+    public EngineGameState getGameState(String gameId) throws GameNotFoundException {
         var gameState = games.get(gameId);
         if(gameState == null) {
             throw new GameNotFoundException(gameId);
@@ -16,11 +16,11 @@ public class GameStore {
         return gameState;
     }
 
-    public Map<String, GameState> getGames() {
+    public Map<String, EngineGameState> getGames() {
         return games;
     }
 
-    public void setGames(Map<String, GameState> games) {
+    public void setGames(Map<String, EngineGameState> games) {
         this.games = games;
     }
 }
