@@ -4,6 +4,8 @@ A rock-paper-scissors game.
 
 ## Pre-requisites
 
+* Java 21 SDK
+
 ## Running
 
 Launch the application:
@@ -47,3 +49,9 @@ curl -X POST \
 ## Developing
 
 Find reasons for decisions made in [alignment](./docs/alignment.md);
+
+Run tests
+
+```bash
+./gradlew test
+```
