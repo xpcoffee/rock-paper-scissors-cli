@@ -47,6 +47,7 @@ sourceSets {
     }
 }
 
+
 openApiGenerate {
 	generatorName.set("spring")
 	inputSpec.set("$projectDir/src/main/resources/openapi.yaml")
@@ -60,3 +61,5 @@ openApiGenerate {
 		"useSpringBoot3" to "true"
 	))
 }
+
+tasks.compileJava.get().dependsOn(tasks.named("openApiGenerate"))
