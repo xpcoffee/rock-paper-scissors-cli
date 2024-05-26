@@ -2,6 +2,8 @@
 
 A rock-paper-scissors command-line game.
 
+For an API based implementation, see [xpcoffee/rock-paper-scissors](https://github.com/xpcoffee/rock-paper-scissors).
+
 ## Pre-requisites
 
 * Java 21 SDK
