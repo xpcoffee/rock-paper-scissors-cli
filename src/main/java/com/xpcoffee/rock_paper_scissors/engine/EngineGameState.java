@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class EngineGameState {
-   private Collection<EngineGameAction> actions = new ArrayList<>();
+    private ArrayList<EngineGameAction> actions = new ArrayList<>();
+
+    public EngineGameState() { }
+    public EngineGameState(EngineGameState other) {
+        this.actions = new ArrayList<>(other.actions);
+    }
 
     public Collection<EngineGameAction> getActions() {
         return actions;

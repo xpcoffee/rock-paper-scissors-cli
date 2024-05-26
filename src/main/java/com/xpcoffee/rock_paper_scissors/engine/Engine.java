@@ -40,6 +40,7 @@ public class Engine {
         }
 
         gameState.addAction(action);
+        store.setGameState(gameId, gameState);
         return determineStatus(gameState);
     }
 

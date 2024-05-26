@@ -48,10 +48,21 @@ curl -X POST \
 
 ## Developing
 
+### Resources
+
 Find reasons for decisions made in [alignment](./docs/alignment.md);
 
-Run tests
+### Running tests
 
 ```bash
 ./gradlew test
 ```
+
+### Making changes to the API
+
+1. Update [openapi.yaml](./src/main/resources/openapi.yaml)
+2. Generate interfaces
+    ```bash
+    ./gradlew openApiGenerate
+    ```
+3. Code with the new interfaces

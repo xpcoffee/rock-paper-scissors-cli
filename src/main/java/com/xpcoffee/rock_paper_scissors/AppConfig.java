@@ -1,5 +1,6 @@
 package com.xpcoffee.rock_paper_scissors;
 
+import com.xpcoffee.rock_paper_scissors.adversary.Adversary;
 import com.xpcoffee.rock_paper_scissors.store.GameStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,5 +16,10 @@ public class AppConfig {
     @Bean
     public GameStore getStore() {
         return new GameStore();
+    }
+
+    @Bean
+    public Adversary getAdversary(Engine engine) {
+        return new Adversary(engine);
     }
 }

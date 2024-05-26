@@ -1,6 +1,7 @@
 package com.xpcoffee.rock_paper_scissors.api;
 
 import com.xpcoffee.rock_paper_scissors.GameException;
+import com.xpcoffee.rock_paper_scissors.adversary.Adversary;
 import com.xpcoffee.rock_paper_scissors.api.generated.GameApi;
 import com.xpcoffee.rock_paper_scissors.api.generated.model.*;
 import com.xpcoffee.rock_paper_scissors.engine.*;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class GameController implements GameApi {
     private final Engine engine;
     private final GameStore store;
+    private final Adversary adversary;
 
-    public GameController(Engine engine, GameStore store) {
+    public GameController(Engine engine, GameStore store, Adversary adversary) {
         this.engine = engine;
         this.store = store;
+        this.adversary = adversary;
     }
 
     @GetMapping
@@ -40,10 +43,17 @@ public class GameController implements GameApi {
     }
 
     @PutMapping
-    public ResponseEntity<GameDetails> newGame() {
+    public ResponseEntity<GameDetails> newGame(@RequestBody GameOptions options) {
         var gameId = engine.newGame();
         var gameState = store.getGameState(gameId);
         var gameStatus = engine.determineStatus(gameState);
+
+        // Spawn adversaries
+        if(options != null) {
+            for (int i = options.getHumanPlayers(); i < 2; i++) {
+                adversary.playMove(gameId);
+            }
+        }
 
         return ResponseEntity.ok(new GameDetails(
                 gameId,
