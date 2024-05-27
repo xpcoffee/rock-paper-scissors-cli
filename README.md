@@ -36,15 +36,11 @@ Pick a move: 2
 
 ## Running
 
-* via **command line**: 
+* via **command line** (e.g. via Github codespace): 
   ```bash
   ./gradlew -q --console plain run
   ```
 * via **IntelliJ**: double-click `run` from Gradle tasks.
-* via **Github Codespace** (if you fork the repo):
-  ```bash
-  gradle -q --console plain run
-  ```
 
 ## Developing
 
